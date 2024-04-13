@@ -1,0 +1,8 @@
+numpy~=1.21.5
+argparse~=1.4.0
+pandas~=1.5.1
+scikit-learn~=1.2.2
+tqdm~=4.65.0
+transformers~=4.31.0
+rdkit~=2021.03.2
+requests~=2.28.1

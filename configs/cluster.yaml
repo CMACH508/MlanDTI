@@ -1,0 +1,24 @@
+
+
+settings:
+  protein_dim: 1024
+  hid_dim: 128
+  atom_dim: 32
+  n_heads: 8
+  n_enlayers: 3
+  n_delayers: 3
+  dropout: 0.2
+
+settings_cls:
+  protein_dim: 1024
+  atom_dim: 32
+  hid_dim: 128
+  dropout: 0.2
+
+lr:
+  lr: 1e-3
+  weight_decay: 1e-4
+  decay_interval: 5
+  lr_decay: 0.5
+
+seed: 1
