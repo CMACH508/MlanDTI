@@ -1,4 +1,4 @@
-# Interpretable bilinear attention network with domain adaptation improves drug-target prediction | [Paper](https://doi.org/10.1038/s42256-022-00605-1)
+# Multilevel Attention Network with Semi-supervised Domain Adaptation for Drug-Target Prediction | [Paper](https://doi.org/10.1609/aaai.v38i1.27786)
 
 
 
@@ -8,16 +8,15 @@ This repository contains the PyTorch implementation of **MlanDTI** framework,
 ## Framework
 ![MlanDTI](MlanDTI.png)
 ## System Requirements
-The source code developed in Python 3.8 using PyTorch 1.7.1. The required python dependencies are given below. DrugBAN is supported for any standard computer and operating system (Windows/macOS/Linux) with enough RAM to run. There is no additional non-standard hardware requirements.
+The source code developed in Python 3.8 using PyTorch 1.7.1. The required python dependencies are given below. MlanDTI is supported for any standard computer and operating system (Windows/macOS/Linux) with enough RAM to run. There is no additional non-standard hardware requirements.
 
 ```
 torch>=1.7.1
 numpy>=1.20.2
 scikit-learn>=0.24.2
 pandas>=1.2.4
-prettytable>=2.2.1
 rdkit~=2021.03.2
-transformers~=4.31.0
+transformers~=4.24.0
 argparse~=1.4.0
 pandas~=1.5.1
 tqdm~=4.65.0
@@ -42,10 +41,10 @@ The `datasets` folder contains all experimental data used in MlanDTI: [BindingDB
 In all datasets folders, we have full data with two random and clustering-based splits for both in-domain and cross-domain experiments.
 
 
-## Run DrugBAN on Our Data to Reproduce Results
+## Run MlanDTI on Our Data to Reproduce Results
 
 To train MlanDTI, you should follow these steps:
-1. Generate protein embeddings and smiles embeddings, run `proteinembeddings.py` and `smileembeddings.py` to generate embeddings for correspoding datasets.
+1. Generate protein embeddings and smiles embeddings, run `get_embeddings.py` to generate embeddings for correspoding datasets.
 2. For experiments with vanilla MlanDTI, you can directly run the following command. `${dataset}` could either be `bindingdb`, `biosnap` , `human` and `celegans`. `${split_task}` could be `cluster`,`random` and `cold`. 
 ```
 $ python main.py --dataset ${dataset} --type ${split_task}
