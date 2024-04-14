@@ -44,7 +44,8 @@ In all datasets folders, we have full data with two random and clustering-based 
 ## Run MlanDTI on Our Data to Reproduce Results
 
 To train MlanDTI, you should follow these steps:
-1. Generate protein embeddings and smiles embeddings, run `get_embeddings.py` to generate embeddings for correspoding datasets. 
+1. Generate protein embeddings and smiles embeddings, run `get_embeddings.py` to generate embeddings for correspoding datasets. Once the embeddings of corresponding dataset `proteinsmbeddings.npy`  and `smilesembeddings.npy` are generated, there is no need to generate them again.
+
 2. For experiments with vanilla MlanDTI, you can directly run the following command. `${dataset}` could either be `bindingdb`, `biosnap` , `human` and `celegans`. `${split_task}` could be `cluster`,`random` and `cold`. 
 ```
 $ python main.py --dataset ${dataset} --type ${split_task}
@@ -54,7 +55,24 @@ For the cross-domain experiments with MlanDTI+PL, you can directly run the follo
 $ python main.py --data ${dataset} --type cluster --usepl True
 ```
 
-## Split the Dataset on Your Own
+## Split the Datasets on Your Own
+You can split the datasets on your own, run `split_dataset.py` in folder `preprocess` or run the following command. `${dataset}` could either be `bindingdb`, `biosnap` , `human` and `celegans`. `${split_type}` could be `cluster`,`random` and `cold`. 
+
+```
+$ python preprocess/split_dataset.py --dataset ${dataset} --split_settings ${split_type}
+```
+
+## Citation
+    @inproceedings{xie2024multilevel,
+        title={Multilevel Attention Network with Semi-supervised Domain Adaptation for Drug-Target Prediction},
+        author={Xie, Zhousan and Tu, Shikui and Xu, Lei},
+        booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+        volume={38},
+        number={1},
+        pages={329--337},
+        year={2024}
+    }
+
 
 
 ## References
