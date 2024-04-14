@@ -25,7 +25,7 @@ tqdm~=4.65.0
 ```
 # create a new conda environment
 $ conda create --name mlandti python=3.8
-$ conda activate mlan
+$ conda activate mlandti
 
 # install requried python dependencies
 $ conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.2 -c pytorch
@@ -44,7 +44,7 @@ In all datasets folders, we have full data with two random and clustering-based 
 ## Run MlanDTI on Our Data to Reproduce Results
 
 To train MlanDTI, you should follow these steps:
-1. Generate protein embeddings and smiles embeddings, run `get_embeddings.py` to generate embeddings for correspoding datasets.
+1. Generate protein embeddings and smiles embeddings, run `get_embeddings.py` to generate embeddings for correspoding datasets. 
 2. For experiments with vanilla MlanDTI, you can directly run the following command. `${dataset}` could either be `bindingdb`, `biosnap` , `human` and `celegans`. `${split_task}` could be `cluster`,`random` and `cold`. 
 ```
 $ python main.py --dataset ${dataset} --type ${split_task}
@@ -54,6 +54,7 @@ For the cross-domain experiments with MlanDTI+PL, you can directly run the follo
 $ python main.py --data ${dataset} --type cluster --usepl True
 ```
 
+## Split the Dataset on Your Own
 
 
 ## References

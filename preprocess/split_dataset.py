@@ -7,7 +7,7 @@ import argparse
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='settings')
-    parser.add_argument('--dataset', type=str, default="bindingdb", choices=["human","celegans","bindingdb","biosnap"],help='select dataset for training')
+    parser.add_argument('--dataset', type=str, default="human", choices=["human","celegans","bindingdb","biosnap"],help='select dataset for training')
     parser.add_argument('--split_settings', type=str, default="random", choices=["random","cold","cluster"],help='select split settings')   
     args = parser.parse_args()
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         os.makedirs(dir_path+"/test/")
     data_path = os.path.join(data_path,"fulldata.csv")
     full=pd.read_csv(data_path)
-    if args.split_settings is 'cluster':
+    if args.split_settings == 'cluster':
         source = []
         target = []
 
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         Ts=pd.DataFrame(columns=column,data=testsamples)
         Ts.to_csv(dir_path+'/test/samples.csv')
         print(len(target_train),len(target_test))
-    elif args.split_settings is 'cold':
+    elif args.split_settings == 'cold':
         train = []
         valtest = []
 
@@ -148,7 +148,7 @@ if __name__ == "__main__":
         val.to_csv(dir_path+'/valid/samples.csv')
         Ts=pd.DataFrame(columns=column,data=testsamples)
         Ts.to_csv(dir_path+'/test/samples.csv')
-    elif args.split_settings is 'random':
+    elif args.split_settings == 'random':
         smiledictnum2str={};smiledictstr2num={}
         sqddictnum2str={};sqdictstr2num={}
         trainsamples=[]
