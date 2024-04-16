@@ -7,7 +7,7 @@ import argparse
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='settings')
-    parser.add_argument('--dataset', type=str, default="human", choices=["human","celegans","bindingdb","biosnap"],help='select dataset for training')
+    parser.add_argument('--dataset', type=str, default="celegans", choices=["human","celegans","bindingdb","biosnap"],help='select dataset for training')
     parser.add_argument('--split_settings', type=str, default="random", choices=["random","cold","cluster"],help='select split settings')   
     args = parser.parse_args()
 
@@ -72,12 +72,12 @@ if __name__ == "__main__":
         target_train=target[0:int(0.8*len(target))]
         target_test=target[int(0.8*len(target)):]
         column=['SMILES','Protein','Y','drug_cluster','target_cluster']
-        sourcesamples=pd.DataFrame(columns=column,data=source)
-        sourcesamples.to_csv(dir_path+'/source_train.csv',index=False)
-        targetsamples=pd.DataFrame(columns=column,data=target_train)
-        targetsamples.to_csv(dir_path+'/target_train.csv',index=False)
-        targetsamples=pd.DataFrame(columns=column,data=target_test)
-        targetsamples.to_csv(dir_path+'/target_test.csv',index=False)
+        source_train_set=pd.DataFrame(columns=column,data=source)
+        source_train_set.to_csv(dir_path+'/source_train.csv',index=False)
+        target_train_set=pd.DataFrame(columns=column,data=target_train)
+        target_train_set.to_csv(dir_path+'/target_train.csv',index=False)
+        target_test_set=pd.DataFrame(columns=column,data=target_test)
+        target_test_set.to_csv(dir_path+'/target_test.csv',index=False)
         column=['smiles','sequence','interactions']
         Tr=pd.DataFrame(columns=column, data=trainsamples)
         Tr.to_csv(dir_path+'/train/samples.csv')
@@ -135,12 +135,12 @@ if __name__ == "__main__":
         testsamples=valtest_example[int(0.3*len(valtest_example)):]
         print(len(val),len(valsamples),len(test),len(testsamples))
         column=['SMILES','Protein','Y','drug_cluster','target_cluster']
-        sourcesamples=pd.DataFrame(columns=column,data=train)
-        sourcesamples.to_csv(dir_path+'/train.csv',index=False)
-        targetsamples=pd.DataFrame(columns=column,data=val)
-        targetsamples.to_csv(dir_path+'/val.csv',index=False)
-        targetsamples=pd.DataFrame(columns=column,data=test)
-        targetsamples.to_csv(dir_path+'/test.csv',index=False)
+        train_set=pd.DataFrame(columns=column,data=train)
+        train_set.to_csv(dir_path+'/train/train.csv',index=False)
+        val_set=pd.DataFrame(columns=column,data=val)
+        val_set.to_csv(dir_path+'/valid/val.csv',index=False)
+        test_set=pd.DataFrame(columns=column,data=test)
+        test_set.to_csv(dir_path+'/test/test.csv',index=False)
         column=['smiles','sequence','interactions']
         Tr=pd.DataFrame(columns=column, data=trainsamples)
         Tr.to_csv(dir_path+'/train/samples.csv')
@@ -156,8 +156,10 @@ if __name__ == "__main__":
         smilelist=[]
         sequencelist=[]
         samples = []
+        data_list = []
         for no,data in enumerate(full.values):
             smiles,sequence,interaction,_,_ =data
+            data_list.append(data)
             smilesidx=0;sequenceidx=0
             if smiledictstr2num.get(smiles) == None:
                 smiledictstr2num[smiles] = len(smiledictstr2num)
@@ -174,12 +176,24 @@ if __name__ == "__main__":
             else:
                 sequenceidx=int(sqdictstr2num[sequence])
             samples.append([smilesidx,sequenceidx,int(interaction)])
+        dataset  = list(zip(samples,data_list))
+        np.random.shuffle(dataset)
+        samples,data_list = [s[0] for s in dataset],[s[1] for s in dataset]
         samples = np.array(samples)
         N = samples.shape[0]
         if args.dataset == 'bindingdb' or args.dataset == 'biosnap':
             trainsamples,valsamples,testsamples = np.split(samples,[int(0.7*N),int(0.8*N)])
+            train,val,test = np.split(data_list,[int(0.7*N),int(0.8*N)])
         elif args.dataset == 'human' or args.dataset == 'celegans': 
             trainsamples,valsamples,testsamples = np.split(samples,[int(0.8*N),int(0.9*N)])
+            train,val,test = np.split(data_list,[int(0.8*N),int(0.9*N)])
+        column=['SMILES','Protein','Y','drug_cluster','target_cluster']
+        train_set=pd.DataFrame(columns=column,data=train)
+        train_set.to_csv(dir_path+'/train/train.csv',index=False)
+        val_set=pd.DataFrame(columns=column,data=val)
+        val_set.to_csv(dir_path+'/valid/val.csv',index=False)
+        test_set=pd.DataFrame(columns=column,data=test)
+        test_set.to_csv(dir_path+'/test/test.csv',index=False)
         column=['smiles','sequence','interactions']
         Tr=pd.DataFrame(columns=column, data=trainsamples)
         Tr.to_csv(dir_path+'/train/samples.csv')

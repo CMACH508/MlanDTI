@@ -104,7 +104,8 @@ def get_protein_embeddings(dir_path,device):
             embed = embedding[1:embedding.shape[0] - 1]
             features.append(embed)
             i += 1
-    np.save(dir_path + '/proteins_embeddings', features,allow_pickle=True)
+    features =np.array(features,dtype=object)
+    np.save(dir_path + '/proteinsembeddings', features,allow_pickle=True)
     print('The preprocess of dataset has finished!')
 if __name__ == "__main__":
     DATASET = "human"

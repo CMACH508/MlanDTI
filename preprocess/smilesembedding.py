@@ -80,6 +80,7 @@ def get_smiles_embeddings(dir_path, device):
          output = output_hidden_state.to('cpu').data.numpy()
       compounds.append(output)
       i+=1
+   compounds =np.array(compounds,dtype=object)
    np.save(dir_path+'/smilesembeddings', compounds, allow_pickle=True)
    print('The preprocess of dataset has finished!')
 
